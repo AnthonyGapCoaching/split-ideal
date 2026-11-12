@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ton split idéal – GAP coaching</title>
+<style>
+:root{--bg:#eef1f4;--card:#fff;--ink:#14202b;--mute:#5b6b7a;--line:#d5dce3;--acc:#1f7a5a;--accbg:#dff2ea;--weak:#b4421f;--weakbg:#fbe4da;--blue:#1877f2;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f161d;--card:#18222c;--ink:#e8eef3;--mute:#93a3b2;--line:#2b3846;--acc:#4cc79a;--accbg:#163a2e;--weak:#ff9d78;--weakbg:#40241a;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0f161d;--card:#18222c;--ink:#e8eef3;--mute:#93a3b2;--line:#2b3846;--acc:#4cc79a;--accbg:#163a2e;--weak:#ff9d78;--weakbg:#40241a;color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "Barlow","Segoe UI",system-ui,sans-serif}
+main{max-width:720px;margin:0 auto;padding:24px 16px 48px}
+h1{font:800 clamp(30px,7vw,44px)/1.05 "Barlow Condensed","Arial Narrow",sans-serif;letter-spacing:.2px;margin:0 0 8px}
+h2{font:700 20px/1.2 "Barlow Condensed","Arial Narrow",sans-serif;margin:0 0 6px}
+.intro{color:var(--mute);margin:0 0 22px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px;margin-bottom:14px}
+label.q{display:block;font-weight:700;margin-bottom:4px}
+.hint{color:var(--mute);font-size:14px;margin:0 0 10px}
+textarea,select{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px}
+textarea{min-height:130px;resize:vertical}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:10px}
+button{font:inherit;cursor:pointer}
+.mic{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:8px 14px}
+.mic.on{background:var(--weakbg);border-color:var(--weak);color:var(--weak)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:999px;padding:7px 14px}
+.weak .chip[aria-pressed=true]{background:var(--weakbg);border-color:var(--weak);color:var(--weak);font-weight:700}
+.strong .chip[aria-pressed=true]{background:var(--accbg);border-color:var(--acc);color:var(--acc);font-weight:700}
+.go{width:100%;background:var(--ink);color:var(--bg);border:0;border-radius:10px;padding:15px;font-weight:800;font-size:18px}
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.err{color:var(--weak);font-weight:600;margin:8px 0 0;min-height:1em}
+#res{display:none}
+.msg{background:var(--accbg);color:var(--ink);border-left:5px solid var(--acc);border-radius:8px;padding:14px 16px;margin-bottom:14px}
+.sess h3{margin:0 0 4px;font:700 18px "Barlow Condensed","Arial Narrow",sans-serif}
+.focus{display:inline-block;background:var(--ink);color:var(--bg);border-radius:6px;padding:2px 10px;font-weight:700;margin:2px 0 8px}
+ul{margin:0;padding-left:20px}
+.tag{font-size:12px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:6px}
+.tag.w{background:var(--weakbg);color:var(--weak)}.tag.s{background:var(--accbg);color:var(--acc)}
+table{width:100%;border-collapse:collapse;font-size:15px}
+th,td{text-align:left;padding:6px 4px;border-bottom:1px solid var(--line)}
+.scroll{overflow-x:auto}
+.note{font-size:14px;color:var(--mute)}
+.ig{display:block;text-align:center;text-decoration:none;background:var(--blue);color:#fff;font-weight:800;border-radius:10px;padding:15px;margin-top:10px}
+</style>
+</head>
+<body>
+<main>
+<h1>Trouve ton split idéal</h1>
+<p class="intro">Trois questions, une minute. L’outil rééquilibre ton programme actuel pour travailler plus (et plus souvent) tes points faibles.</p>
+
+<section class="card">
+<label class="q" for="q1">1. Décris ton programme actuel</label>
+<p class="hint">Jours par semaine, durée des séances, muscles travaillés à chaque séance, muscle fait en premier. Si tu les connais, ajoute tes séries par semaine (ex. « pectoraux 10 séries, dos 14 séries »).</p>
+<textarea id="q1" placeholder="Ex : 4 séances de 1h. Lundi pecs, triceps. Mardi dos, biceps. Jeudi jambes... pectoraux 10 séries, dos 14 séries"></textarea>
+<div class="row">
+<label for="days" style="font-weight:600">Séances par semaine</label>
+<select id="days" style="width:auto"><option value="">Choisir</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option></select>
+<button class="mic" id="mic" type="button">🎤 Dicter</button>
+</div>
+<p class="note" id="micnote"></p>
+</section>
+
+<section class="card weak">
+<h2>2. Tes muscles les moins développés</h2>
+<p class="hint">Touche ceux qui te semblent en retard.</p>
+<div class="chips" id="c2"></div>
+</section>
+
+<section class="card strong">
+<h2>3. Tes muscles suffisamment développés</h2>
+<p class="hint">Touche ceux qui sont déjà au niveau.</p>
+<div class="chips" id="c3"></div>
+</section>
+
+<button class="go" id="go" type="button">Voir mon nouveau split</button>
+<p class="err" id="err" role="alert"></p>
+
+<section id="res" aria-live="polite">
+<div class="msg" id="msg"></div>
+<div id="split"></div>
+<div class="card"><h2>Volume hebdomadaire</h2><div class="scroll"><table id="vol"></table></div><p class="note" id="volnote"></p></div>
+<div class="card">
+<p class="note" style="margin:0 0 4px">Cet outil ne remplace pas une analyse et une programmation approfondies. Pour des conseils vraiment adaptés à toi, consulte un coach professionnel.</p>
+<a class="ig" id="ig" target="_blank" rel="noopener noreferrer" href="#">Demander conseil à Anthony – GAP coaching</a>
+</div>
+</section>
+</main>
+<script>
+// >>> Remplace par le nom d'utilisateur Instagram (sans @)
+var INSTAGRAM_USER = "anthony.gapcoaching";
+document.getElementById("ig").href = "https://ig.me/m/" + INSTAGRAM_USER;
+
+var M = {
+ pectoraux:{n:"Pectoraux",big:1,a:["pec","pecs","pectoraux","poitrine"]},
+ dos:{n:"Dos",big:1,a:["dos","dorsaux","dorsal"]},
+ epaules:{n:"Épaules",big:1,a:["epaule","epaules","deltoide","deltoides","delto","deltos"]},
+ biceps:{n:"Biceps",big:0,a:["biceps"]},
+ triceps:{n:"Triceps",big:0,a:["triceps"]},
+ quadriceps:{n:"Quadriceps",big:1,a:["quadriceps","quadri","quadris","quads","cuisses"]},
+ ischios:{n:"Ischios",big:1,a:["ischio","ischios","ischio-jambiers"]},
+ fessiers:{n:"Fessiers",big:1,a:["fessier","fessiers","fesses","glute","glutes"]},
+ mollets:{n:"Mollets",big:0,a:["mollet","mollets"]},
+ abdos:{n:"Abdos",big:0,a:["abdos","abdominaux","abdo"]}
+};
+var K = Object.keys(M), weak = {}, strong = {};
+
+function chips(id, store, other){
+ var box = document.getElementById(id);
+ K.forEach(function(k){
+  var b = document.createElement("button");
+  b.type="button"; b.className="chip"; b.textContent=M[k].n; b.setAttribute("aria-pressed","false");
+  b.onclick=function(){
+   var on = b.getAttribute("aria-pressed")!=="true";
+   b.setAttribute("aria-pressed",on);
+   if(on){store[k]=1; if(other[k]){delete other[k]; sync();}} else delete store[k];
+  };
+  b.dataset.k=k; box.appendChild(b);
+ });
+}
+function sync(){
+ [["c2",weak],["c3",strong]].forEach(function(p){
+  document.querySelectorAll("#"+p[0]+" .chip").forEach(function(b){b.setAttribute("aria-pressed",!!p[1][b.dataset.k]);});
+ });
+}
+chips("c2",weak,strong); chips("c3",strong,weak);
+
+function norm(s){return s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");}
+
+// Dictée vocale (Chrome, Edge, Safari)
+(function(){
+ var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+ var mic = document.getElementById("mic"), note = document.getElementById("micnote"), ta = document.getElementById("q1");
+ if(!SR){mic.style.display="none"; note.textContent="Astuce : utilise le micro du clavier de ton téléphone pour dicter.";return;}
+ var rec = new SR(), on = false, base = "";
+ rec.lang="fr-FR"; rec.continuous=true; rec.interimResults=true;
+ rec.onresult=function(e){var t="";for(var i=0;i<e.results.length;i++)t+=e.results[i][0].transcript;ta.value=(base+" "+t).trim();};
+ rec.onend=function(){on=false;mic.classList.remove("on");mic.textContent="🎤 Dicter";};
+ rec.onerror=function(){note.textContent="Micro indisponible ici : utilise le micro du clavier de ton téléphone.";};
+ mic.onclick=function(){
+  if(on){rec.stop();return;}
+  base=ta.value; try{rec.start();on=true;mic.classList.add("on");mic.textContent="⏹ Arrêter";}catch(x){}
+ };
+})();
+
+function parseVol(t){
+ var v = {}, found = 0;
+ K.forEach(function(k){
+  M[k].a.forEach(function(a){
+   var r1 = new RegExp("\\b"+a+"\\b[^0-9.;\\n]{0,25}?(\\d{1,2})\\s*(?:series|sets|s\\b)","i");
+   var r2 = new RegExp("(\\d{1,2})\\s*(?:series|sets)\\s*(?:de|d')?\\s*"+a+"\\b","i");
+   var m = t.match(r1)||t.match(r2);
+   if(m && !v[k]){v[k]=parseInt(m[1],10);found++;}
+  });
+ });
+ return {v:v,found:found};
+}
+function firstMentioned(t){
+ var best=null,pos=1e9;
+ K.forEach(function(k){M[k].a.forEach(function(a){var i=t.search(new RegExp("\\b"+a+"\\b"));if(i>=0&&i<pos){pos=i;best=k;}});});
+ return best;
+}
+
+function build(days, vol, hasVol){
+ var base={}, wt={}, tot=0, newTot=0;
+ K.forEach(function(k){
+  base[k]=vol[k]||(M[k].big?12:8);
+  wt[k]=weak[k]?1.4:strong[k]?0.65:1;
+  tot+=base[k]; newTot+=base[k]*wt[k];
+ });
+ var sc=tot/newTot, newV={}, freq={};
+ K.forEach(function(k){
+  newV[k]=Math.max(4,Math.round(base[k]*wt[k]*sc));
+  freq[k]=weak[k]?Math.min(days,3):strong[k]?1:Math.min(days,2);
+  if(weak[k]&&days>=5)freq[k]=Math.min(days,4)>3&&newV[k]>=18?4:3;
+ });
+ var load=[],sess=[],i;
+ for(i=0;i<days;i++){load.push(0);sess.push([]);}
+ var order=K.slice().sort(function(a,b){return freq[b]-freq[a]||(weak[b]?1:0)-(weak[a]?1:0);});
+ order.forEach(function(k){
+  var f=freq[k],bestPat=null,bestScore=1e9;
+  for(var sh=0;sh<days;sh++){
+   var pat=[];
+   for(i=0;i<f;i++)pat.push((Math.round(i*days/f)+sh)%days);
+   var uniq=pat.filter(function(x,j){return pat.indexOf(x)===j;});
+   if(uniq.length<f)continue;
+   var sc2=uniq.reduce(function(s,x){return s+load[x]*1;},0)+(weak[k]?uniq.reduce(function(s,x){return s+x;},0)*0.01:0);
+   if(sc2<bestScore){bestScore=sc2;bestPat=uniq;}
+  }
+  var per=newV[k]/f;
+  bestPat.forEach(function(x){sess[x].push({k:k,s:Math.max(2,Math.round(per))});load[x]+=per;});
+ });
+ sess.forEach(function(s){
+  s.sort(function(a,b){return (weak[b.k]?1:0)-(weak[a.k]?1:0)||b.s-a.s;});
+ });
+ return {sess:sess,base:base,newV:newV,freq:freq,tot:tot};
+}
+
+document.getElementById("go").onclick=function(){
+ var err=document.getElementById("err"); err.textContent="";
+ var raw=document.getElementById("q1").value, t=norm(raw);
+ var d=parseInt(document.getElementById("days").value,10);
+ if(!d){var m=t.match(/(\d)\s*(?:jours|seances|fois|j\b)/);if(m)d=parseInt(m[1],10);}
+ if(!d||d<2||d>7){err.textContent="Indique ton nombre de séances par semaine (2 à 6).";return;}
+ if(!Object.keys(weak).length){err.textContent="Choisis au moins un muscle en retard (question 2).";return;}
+ var pv=parseVol(t), hasVol=pv.found>=3, vol=hasVol?pv.v:{};
+ var r=build(d,vol,hasVol), box=document.getElementById("split"), h="";
+ var first=firstMentioned(t);
+ r.sess.forEach(function(s,i){
+  var top=s[0]?M[s[0].k].n:"";
+  h+='<div class="card sess"><h3>Séance '+(i+1)+'</h3><span class="focus">À cibler en premier : '+top+'</span><ul>';
+  s.forEach(function(x){
+   h+="<li>"+M[x.k].n+(hasVol?" – environ "+x.s+" séries":"")+(weak[x.k]?'<span class="tag w">priorité</span>':strong[x.k]?'<span class="tag s">entretien</span>':"")+"</li>";
+  });
+  h+="</ul></div>";
+ });
+ box.innerHTML="<h2>Voilà ton nouveau split</h2>"+h;
+ var tb='<tr><th>Muscle</th><th>Avant</th><th>Après</th><th>Fréq.</th></tr>';
+ K.forEach(function(k){
+  tb+="<tr><td>"+M[k].n+"</td><td>"+(hasVol?r.base[k]:"–")+"</td><td><b>"+r.newV[k]+"</b></td><td>"+r.freq[k]+"×/sem</td></tr>";
+ });
+ document.getElementById("vol").innerHTML=tb;
+ var nt=0;K.forEach(function(k){nt+=r.newV[k];});
+ document.getElementById("volnote").textContent=hasVol
+  ?"Volume total : "+r.tot+" séries avant, "+nt+" après (séries par semaine, volume proche mais rééquilibré)."
+  :"Tu n’as pas donné tes séries : ces volumes sont des repères standards ("+nt+" séries au total), rééquilibrés selon tes priorités.";
+ document.getElementById("msg").innerHTML="<b>Bravo, tu as déjà identifié tes priorités !</b> C’est la première étape pour progresser. Avec plus de volume et de fréquence sur "+Object.keys(weak).map(function(k){return M[k].n.toLowerCase();}).join(", ")+", tu es sur la bonne voie.";
+ var res=document.getElementById("res");res.style.display="block";res.scrollIntoView({behavior:"smooth"});
+};
+</script>
+</body>
+</html>
